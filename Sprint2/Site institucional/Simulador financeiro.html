@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+    <link rel="stylesheet" href="styleSimulador.css">
+</head>
+<body>
+    <div class="header">
+
+        <div class="container">
+
+            <a href="index.html"><img src="Logotipo-tech.png" class="active"></a>
+
+
+            <ul class="navbar" >
+                <li><a href="index.api.html">Graficos</a></li>
+                <li class="active"><a href="">Simulador</a></li>
+                <li>|</li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="logincadastro.html">Cadastro</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="div_img">
+        <img src="Logotipo-tech.png" width="150px" alt="Logo Plantech"> <br> <br>
+        <h3>Simulador de Produção - Plantech</h3> <br>
+    </div>
+    <div class="div_texto">
+       <b id="texto_pergunta">Quantos metros quadrados possui sua estufa?</b> <input id="inputTamanho" placeholder="10m²"><br>
+        <br>
+        <button id="bt_simulacao" onclick="simularProducao()">Simular produção</button><br>
+        <br>
+
+        <div id="divSimulacaoComum" style="background-color: rgb(178, 219, 245); display: none;">
+        <b>Para estufa hidropônica comum, 
+            <br>sua produção será de:</b><br> 
+            <br> <span id="textoProducaoAnual"></span> rúculas por ano em 
+            <span id="textoMetrosQuadrados"></span> metros quadrados.
+            <br>O custo médio de produção é de: <span id="textoCustoMedio"></span> por ano. 
+            <br>O valor médio de venda é de 1,00, gerando:
+            <br> Lucro bruto de: <span id="textoLucroBrutoComum"></span>.
+            <br> Lucro líquido de: <span id="textoLucroLiquidoComum"></span></b>.;
+        </div>
+
+        <div id="divSimulacaoIndoor" style="background-color: rgb(188, 224, 188); display: none;">
+            <b>Para estufa hidropônica indoor, com os sensores da Plantech, 
+            <br>sua produção será de:</b><br> 
+            <br><span id="textoProducaoAnual2"></span> rúculas por ano em 
+            <span id="textoMetrosQuadrados2"></span> metros quadrados.
+            <br>O custo médio de produção é de: <span id="textoCustoMedio2"></span> por ano. 
+            <br>O valor médio de venda é de 1,75, gerando:
+            <br> Lucro bruto de: <span id="textoLucroBrutoIndoor"></span>.
+            <br> Lucro líquido de: <span id="textoLucroLiquidoIndoor"></span></b>.
+        </div>
+        <br>
+    </div>
+    
+</body>
+</html>
+<script>
+   function simularProducao() {
+       //Essa variável está recebendo um método que formata números com casas de milhar, ela será usada depois
+       var formatter = new Intl.NumberFormat
+
+        var metrosEstufa = document.getElementById("inputTamanho").value
+        // Para calcular, consideramos: 500/m2 e 30 dias produtivos/anual
+        var producaoAnual = metrosEstufa * 500 * 30
+        var custoMedioAnual = producaoAnual * 0.38
+        // Para calcular, consideramos: 500/m2 e 30 dias produtivos/anual
+        var lucroLiquidoComum = producaoAnual - custoMedioAnual
+        var vendasIndoor = producaoAnual * 1.75
+        var lucroLiquidoIndoor = vendasIndoor - custoMedioAnual
+
+        if (metrosEstufa >= 10 ) {
+            //aqui chamamos a variavel e usamos a função ".format" para formatar o valor desejado entre parênteses
+            textoProducaoAnual.innerHTML = formatter.format(producaoAnual)
+            textoProducaoAnual2.innerHTML = formatter.format(producaoAnual)
+            
+            textoMetrosQuadrados.innerHTML = metrosEstufa
+            textoMetrosQuadrados2.innerHTML = metrosEstufa
+            
+            /* 
+            toLocaleString converte um número em uma string para arredondar e converter o valor para
+            a moeda desejada. O primeiro argumento passado é o estilo da formatação, nesse caso, o 
+            estilo monetário. O segundo argumento é a moeda que será utilizada.
+            */
+           textoCustoMedio.innerHTML = custoMedioAnual.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+           textoCustoMedio2.innerHTML = custoMedioAnual.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+           
+           textoLucroBrutoComum.innerHTML = formatter.format(producaoAnual)
+           textoLucroLiquidoComum.innerHTML = lucroLiquidoComum.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+           
+           textoLucroBrutoIndoor.innerHTML = vendasIndoor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+           textoLucroLiquidoIndoor.innerHTML = lucroLiquidoIndoor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+           
+           divSimulacaoComum.style.display = "block"
+           divSimulacaoIndoor.style.display = "block"
+        } else {
+            alert("Sua estufa deve ter pelo menos 10m²")
+        }
+    }
+    
+</script>

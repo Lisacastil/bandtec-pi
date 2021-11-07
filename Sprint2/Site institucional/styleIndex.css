@@ -1,0 +1,251 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.header{
+    width: 100vw;
+    height: 100px;
+    /* O linear gradient cria um degradê de cores,
+    45 deg significa 45 graus (a direção em que essas cores serão alinhadas)*/
+    background: linear-gradient(45deg, #406343, #ECE7B4, #F3EFCC);
+    border: #406343 3px solid;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+   .container{
+    width: 80%;
+    height: 100%;
+    /* margin:auto O navegador seleciona uma margem adequada para utilizar. 
+    Por exemplo, em alguns casos este valor pode ser utilizado para centralizar o elemento.*/
+    margin: auto;
+}
+
+    .container img{
+        height: 150px;
+}
+
+    .header .container {
+        display: flex;
+        /* justify-content: space-between
+        coloca um espaço entre os elementos*/
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar{
+        display: flex;
+        flex-direction: row;
+        /*list-style: none
+        Retira a estilização padrão (cor roxa) da lista */
+        list-style: none;
+        width: 40%;
+        justify-content: space-between;
+    }
+
+    .navbar .active{
+        font-weight: bolder;
+    }
+
+    .navbar a{
+        color: #32502E;
+    }
+    body{
+        background: linear-gradient(45deg,  #406343, #ECE7B4, #F3EFCC);
+        background-size: 200% 100%;
+    }
+    .pagina-inicial{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .banner_card{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .banner{
+        background-image: url(https://img.freepik.com/fotos-gratis/folhas-frescas-de-rucula-close-up-salada-de-alface-folhas-de-vegetais-hidroponicas_130265-8402.jpg?size=626&ext=jpg&ga=GA1.2.247189466.1619654400
+        );
+        /* no-repeat para a imagem não se repetir */
+        background-repeat: no-repeat;
+        /* Cover para a imagem cobrir todo o conteúdo da div */
+        background-size: cover;
+        /* attachment: fixed para a imagem ficar fixada e dar um efeito ao rolar a página para baixo*/
+        background-attachment: fixed;
+        height: 500px;
+        width: 100vw;
+        margin-bottom: 50px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .perspective-text{
+        margin-bottom: 20px;
+        width: 510px;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 58px;
+        /* Deixa a fonte mais robusta*/
+        font-weight: 900;
+        /* Espaçamento entre as letras*/
+        letter-spacing: -1px;
+        /* position absolute permite que vc utilize propriedades como top, left.
+        E como um margin, mas permite que você explore ainda mais o posicionamento.
+        Utilizei isso para deixar esse "perspective-text" centralizado na imagem */
+        position: absolute;
+        top: 190px;
+    }
+    .perspective-line{
+        height: 55px;
+        /* o overflow: hidden é importante para que o texto de baixo do perspective-text
+        não se sobreponha ao de cima*/
+        overflow: hidden;
+        /* graças ao position: relative eu posso fazer esse efeito de escada com  as letras com mais profundidade */
+        position: relative;
+    }
+    p {
+        margin: 0;
+        height: 50px;
+        /* line-height altura da linha */
+        line-height: 50px;
+        /* o transition é a transição de uma palavra para outra no perspective-text,
+        é basicamente uma animação.
+         0.5 s é a sua velocidade,
+         e ease-in-out é uma suavização na animação em seu começo "in" e fim "out"  */
+        transition: all 0.5s ease-in-out;
+    }
+    /* Aqui é onde a animação em si acontece, :nth-child() é uma pseudo classe, significa que eu vou puxar os elementos filhos
+    da div e odd Representa elementos cuja posição numérica em uma série de irmãos seja ímpar: 1, 3, 5, etc.*/
+    .perspective-line:nth-child(odd) {
+        /* A propriedade skew rotaciona o elemento na diagonal, dando um efeito 3D
+        e o scaleY rotaciona no eixo Y ou seja na vertical*/
+        transform: skew(60deg, -30deg ) scaleY(0.667);
+    }
+    /*Aqui eu pego todos os elementos filhos pares (even) */
+    .perspective-line:nth-child(even) {
+        transform: skew(0deg, -30deg ) scaleY(1.333);
+    }
+    .perspective-line:hover p{
+        /* Aqui é outra parte importante, :hover significa que eu quero que a animação (transformação) aconteça
+        quando eu passar meu mouse por cima
+        no translate eu passo dois valores dependendo do que eu quero que aconteça, o primeiro "0" é o eixo x
+        e o segundo "-60" é o eixo Y*/
+        transform: translate(0, -60px);
+    }
+    .perspective-line:nth-child(1) {
+        /* Este left é para ajudar no efeito "escada" */
+        left: 29px;
+    }
+    .perspective-line:nth-child(2) {
+        left: 58px;
+    }
+    .perspective-line:nth-child(3) {
+        left: 87px;
+    }
+    .perspective-line:nth-child(4) {
+        left: 116px;
+    }
+    .perspective-line:nth-child(5) {
+        left: 145px;
+    }
+
+
+    .card-quem-somos{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 600px;
+        height: 300px;
+        margin-left: 250px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    .card-container{
+        width: 100%;
+        height: 100%;
+    }
+    .card figure{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        margin: 0;
+    }
+    .card{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        height: 100%;
+        transition: transform 1s ease-in-out;
+        /* preserve-3d para que ao card girar ele pareça 3D e não chapado como um folha*/
+        transform-style: preserve-3d;       
+     }
+     .card-container:hover .card{
+         /* Girando meu card 180 graus ( para seu verso) */
+        transform: rotateY(180deg);
+    }
+    .card .front {
+        /* Aqui eu estilizei a parte da frente do meu card */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 40px;
+        border: 2px solid #406343;
+        background:  linear-gradient(45deg,#406343, #ECE7B4,#F3EFCC);
+        color: #406343;
+        text-align: center;
+    }
+    .card .back {
+        /* Estilização da parte de trás do card*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        border: 2px solid #406343;
+        background: #406343;
+        color: #F3EFCC;
+        transform: rotateY(180deg);
+        text-align: center;
+    }
+    .barra_de_baixo img{
+        width: 60px;
+        border-radius: 50%;
+    }
+    .barra_de_baixo {
+        display: flex;
+        align-items: center;
+        margin-top: 150px;
+        height: 60vh;
+        width: 100vw;
+        border: 2px solid #406343;
+        color: #406343;
+        background-color: #F3EFCC;
+        text-align: center;
+        justify-content: space-around;
+    }
+    .justificativa {
+        justify-content: center;
+        text-align: center;
+    }
+    .justificativa .mvv{
+        text-align: center;
+        margin: 32px;
+    }
+
+    .footer{
+        background-color: #406343 ;
+        height: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .footer p {
+        color: white;
+    }

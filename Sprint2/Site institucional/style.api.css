@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #406343;
+}
+.graficos h1 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.graficos h2 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.banner{
+    background-image: url(https://img.freepik.com/fotos-gratis/folhas-frescas-de-rucula-close-up-salada-de-alface-folhas-de-vegetais-hidroponicas_130265-8402.jpg?size=626&ext=jpg&ga=GA1.2.247189466.1619654400
+    );
+    height: 1000px;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.graficos {
+    margin-left: 150px;
+    width: 80%;
+    border: 2px solid #406343;
+    flex-wrap: wrap;
+    background: linear-gradient(45deg, #ECE7B4, #F3EFCC);
+}
+.container img{
+    height: 150px;
+}
+.header{
+    height: 100px;
+    background: linear-gradient(45deg, #406343, #ECE7B4, #F3EFCC) ;
+    border: #406343 3px solid;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.container{
+    width: 80%;
+    height: 100%;
+    margin: auto;
+}
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    width: 40%;
+    justify-content: space-between;
+}
+
+
+.navbar .active{
+    font-weight: bolder;
+}
+
+.navbar a{
+    color: #406343;
+}
+
