@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styleCadastro.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+
+
+            <a href="index.html"><img src="Logotipo-tech.png" class="active"></a>
+
+
+            <ul class="navbar" >
+                <li><a href="graficos.html">Graficos</a></li>
+                <li><a href="Simulador financeiro.html">Simulador</a></li>
+                <li>|</li>
+                <li><a href="login.html">Login</a></li>
+                <li class="active"><a>Cadastro</a></li>
+            </ul>
+        </div>
+    </div> 
+    
+
+    <div id="container" class="formContainer">
+        <div id="divCadastro">
+            <h1><i>Faça seu cadastro</i></h1>
+            <h2><i>Nome:</i></h2>
+            <input id="inputNome" placeholder="Digite seu Nome" type="text"><br><br>
+            <h2><i>Email:</i></h2>
+            <input id="inputEmail" placeholder="Digite seu Email" type="email"><br><br>
+            <h2><i>Username:</i></h2>
+            <input id="inputUsernameCadastro" placeholder="Digite seu username" type="text"><br><br>
+            <h2><i>Senha:</i></h2>
+            <input id="inputSenhaCadastro" placeholder="Digite sua senha" type="password" onkeyup="calculateStrength()">
+            <img id="imgEye" src="https://icon-library.com/images/show-password-icon/show-password-icon-17.jpg" height="30px" onclick="showOrHidePassword()"><br>
+            <div id="showPasswordStrength" style="font-weight: bolder;"></div> <br>
+            <button onclick="cadastro()">Cadastrar-se</button>
+        </div>
+
+        <div id="divLogin" style="display: none;">
+            <h1><b><i>Entre com sua conta</i></b></h1>
+            <h2><i>Username:</i></h2>
+            <input id="inputUsernameLogin" placeholder="Digite seu username" type="text"><br><br>
+            <h2><i>Senha:</i></h2>
+            <input id="inputSenhaLogin" placeholder="Digite sua senha" type="password"><br><br>
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    
+</body>
+</html>
+<script>
+    function calculateStrength() {
+        var senha = inputSenhaCadastro.value
+
+        if (senha == "") {
+            showPasswordStrength.innerHTML = ""
+        } else if (senha.length <= 3) {
+            showPasswordStrength.style.color = "red"
+            showPasswordStrength.innerHTML = "Senha fraca!"
+        } else if (senha.length <= 6) {
+            showPasswordStrength.style.color = "yellow"
+            showPasswordStrength.innerHTML = "Senha média!"
+        } else {
+            showPasswordStrength.style.color = "blue"
+            showPasswordStrength.innerHTML = "Senha forte!"
+        }
+    }
+
+    function showOrHidePassword() {
+        if (inputSenhaCadastro.type == "password") {
+            inputSenhaCadastro.type = "text"
+            imgEye.src = "https://icon-library.com/images/show-password-icon/show-password-icon-18.jpg"
+        } else {
+            inputSenhaCadastro.type = "password"
+            imgEye.src = "https://icon-library.com/images/show-password-icon/show-password-icon-17.jpg"
+        }
+    }
+
+    function cadastro() {
+        var nome = inputNome.value
+        var email = inputEmail.value
+        var usernameCadastro = inputUsernameCadastro.value
+        var senhaCadastro = inputSenhaCadastro.value
+
+        var nomeValido = nome.length > 3
+        var emailValido = email.includes("@") && email.includes(".com")
+        var usernameInvalido = usernameCadastro.includes(" ")
+        var senhaValida = isNaN(senhaCadastro)  
+        var tamanhoSenha = senhaCadastro.length >= 7
+
+        if (nome == "" || email == "" || senhaCadastro == "" || usernameCadastro == "") {
+            alert("Preencha todos os campos!")
+        } else if (!nomeValido) {
+            alert("Seu nome deve conter mais de três letras!")
+        } else if (!emailValido) {
+            alert("Insira um email válido (deve conter @ e .com)!")
+        } else if (usernameInvalido) {
+            alert("Seu username não deve conter espaços!")
+        } else if (!senhaValida) {
+            alert("Inclua pelo menos uma letra na sua senha!")
+        } else if (!tamanhoSenha) {
+            alert("Crie uma senha forte!")
+        } else {
+            alert("Cadastro concluído com sucesso!")
+            divCadastro.style.display = "none"
+            container.style.width = "500px"
+            container.style.height = "350px"
+            divLogin.style.display = "block"
+        }
+        
+    }
+
+    function login() {
+        
+        var nome = inputNome.value
+        var email = inputEmail.value
+        var usernameCadastro = inputUsernameCadastro.value
+        var senhaCadastro = inputSenhaCadastro.value
+
+        var usernameLogin = inputUsernameLogin.value
+        var senhaLogin = inputSenhaLogin.value
+
+        if(usernameLogin == usernameCadastro && senhaLogin == senhaCadastro){
+            alert("Login efetuado com sucesso!")
+        } else{
+            alert("Senha ou usuário incorretos!")
+        }
+        inputUsernameLogin.value = ""
+        inputSenhaLogin.value = ""
+    }
+</script>

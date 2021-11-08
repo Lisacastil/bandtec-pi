@@ -1,0 +1,428 @@
+
+<!doctype html>
+<html>
+
+<head>
+	<title>Line Chart</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
+	<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+	<link rel="stylesheet" href="style.api.css">
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<div class="header">
+
+        <div class="container">
+
+            <a href="index.html"><img src="Logotipo-tech.png" class="active"></a>
+
+
+            <ul class="navbar" >
+                <li><a href="index.api.html">Graficos</a></li>
+                <li><a href="Simulador financeiro.html">Simulador</a></li>
+                <li>|</li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="logincadastro.html">Cadastro</a></li>
+            </ul>
+
+    </div>
+<div class="banner">
+	<div class="graficos">
+		<h1>Sensor DHT 11 - Umidade</h1>
+			<section>
+				<h2>Média: <label id='average'>0.00</label></h2>
+				<div id="div_msg"></div>
+			</section>
+			<section style="width:80%">
+				<canvas id="chart"></canvas>
+			</section>
+			<div class="tableUmi">
+				<h3>Legendas (Umidade)</h3>
+				<table style="width: 600px;">
+					<tr style="background-color: gray;">
+						<th>CRÍTICO</th>
+						<th>EMERGÊNCIA</th>
+						<th>ALERTA</th>
+						<th>IDEAL</th>
+						<th>ALERTA</th>
+						<th>EMERGÊNCIA</th>
+						<th>CRÍTICO</th>
+					</tr>
+					<tr>
+						<td style="background-color: rgb(255, 30, 30);">Abaixo de 45%</td>
+						<td style="background-color: rgb(255, 113, 61);">45%</td>
+						<td style="background-color: rgb(243, 243, 83);">55%</td>
+						<td style="background-color: rgb(55, 228, 55);">65% até 75%</td>
+						<td style="background-color: rgb(243, 243, 83);">80%</td>
+						<td style="background-color: rgb(255, 113, 61);">90%</td>
+						<td style="background-color: rgb(247, 30, 30);">Acima de 90%</td>	
+					</tr>
+				</table>
+			</div>
+			<br><br><br>
+
+			<h1>Sensor LDR - Luminosidade</h1>
+			<section>
+				<h2>Média: <label id="average3">0.00</label></h2>
+				<div id="div_msg2"></div>
+			</section>
+			<section style="width: 80%;">
+				<canvas id="chart3"></canvas>
+			</section>
+			<div class="tableLum">
+				<h3>Legendas (Luminosidade)</h3>
+				<table style="width: 500px;">
+					<tr style="background-color: gray;">
+						<th>CRÍTICO</th>
+						<th>EMERGÊNCIA</th>
+						<th>ALERTA</th>
+						<th>IDEAL</th>
+						<th>ALERTA</th>
+						<th>EMERGÊNCIA</th>
+						<th>CRÍTICO</th>
+					</tr>
+					<tr>
+						<td style="background-color: rgb(255, 30, 30);">Abaixo de 300</td>
+						<td style="background-color: rgb(255, 113, 61);">300</td>
+						<td style="background-color: rgb(243, 243, 83);">400</td>
+						<td style="background-color: rgb(55, 228, 55);">500 até 900</td>
+						<td style="background-color: rgb(243, 243, 83);">1000</td>
+						<td style="background-color: rgb(255, 113, 61);">1100</td>
+						<td style="background-color: rgb(255, 30, 30);">Acima de 1100</td>	
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+
+		var context = document.getElementById("chart").getContext("2d");
+		context.canvas.width = 1000;
+		context.canvas.height = 300;
+        
+        var configuration = {
+			type: 'line',
+			data: {
+				datasets: [{
+					label: "Umidade",
+					type: 'line',
+					borderColor: '#406343',
+					backgroundColor: ['#89cff0']
+				}]
+			},
+			options: {
+				scales: {
+					xAxes: [{
+						distribution: 'series',
+                        ticks: {
+                            beginAtZero:true
+                        }
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Umidade'
+                        },
+                        ticks: {
+                            beginAtZero:true
+                        }
+					}]
+				},
+				animation: {
+					duration: 0
+				}
+			}
+        };
+        
+		var chart = new Chart(context, configuration);
+
+        //Função para obter os dados de temperatura do server
+        //Seria mais interessante fazer isso com WebSocket, porém para fins academicos, os dados serão atualizados via HTTP
+        
+        //Esse atributo dentro do contexto serve para saber qual foi o último índice processado, assim eliminado os outros elementos na
+        //hora de montar/atualizar o gráfico
+        this.lastIndexTemp = 0;
+        this.time = 0;
+
+        function get_data(){
+
+            var http = new XMLHttpRequest();
+            http.open('GET', 'http://localhost:3000/api', false);
+            http.send(null);        
+			
+            var obj = JSON.parse(http.responseText);
+			//Assinar ao primero index
+			obj = obj[0];
+            if (obj.data.length == 0){
+                return;
+            }
+
+            var _lastIndexTemp = this.lastIndexTemp;
+            this.lastIndexTemp = obj.data.length;
+            listTemp = obj.data.slice(_lastIndexTemp);
+
+            listTemp.forEach(data => {
+                //Máximo de 60 itens exibidos no gráfico
+                if (chart.data.labels.length == 10 && chart.data.datasets[0].data.length == 10){
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                }
+
+                chart.data.labels.push(this.time++);
+                chart.data.datasets[0].data.push(parseFloat(data));
+
+				if (data < 45){
+                chart.data.datasets[0].backgroundColor='rgb(255, 30, 30';
+           
+                div_msg.innerHTML = `<h2 style="color: rgb(255, 30, 30;">Umidade ${data.toFixed()}%, muito abaixo dos padrões ideais, estado crítico!!!</h2>`
+            }
+            if (data >= 45 && data < 55){
+                chart.data.datasets[0].backgroundColor='rgb(255, 113, 61)';
+            
+                div_msg.innerHTML = `<h2 style="color: rgb(255, 113, 61);">Umidade ${data.toFixed()}%, abaixo dos padrões ideais, estado emergêncial</h2>`
+            }
+            if (data >= 55 && data < 65){
+                chart.data.datasets[0].backgroundColor='rgb(243, 243, 83);';
+                div_msg.innerHTML = `<h2 style="color: rgb(243, 243, 83);;">Umidade ${data.toFixed()}%, abaixo do padrão ideal</h2>`
+            }
+            if (data >= 65 && data <=75){
+                chart.data.datasets[0].backgroundColor='green';
+          
+                div_msg.innerHTML = `<h2 style="color: green;">Umidade ${data.toFixed()}%,  nos padrões ideais</h2>`
+            }
+            if (data > 75 && data <= 80){
+                chart.data.datasets[0].backgroundColor='rgb(243, 243, 83);';
+            
+                div_msg.innerHTML = `<h2 style="color: rgb(243, 243, 83);;">Umidade ${data.toFixed()}%, acima dos padrões ideais</h2>`
+            }
+			if (data > 80 && data <= 90){
+                chart.data.datasets[0].backgroundColor='rgb(255, 113, 61)';
+            
+                div_msg.innerHTML = `<h2 style="color: rgb(255, 113, 61);">Umidade ${data.toFixed()}%, acima dos padrões ideais, estado emergêncial</h2>`
+            }
+			if (data > 90){
+                chart.data.datasets[0].backgroundColor='rgb(255, 30, 30)';
+            
+                div_msg.innerHTML = `<h2 style="color: rgb(255, 30, 30);">Umidade ${data.toFixed()}%, muito acima dos padrões ideais, estado crítico!!!</h2>`
+            }
+			
+
+                chart.update();
+			});
+			
+			document.getElementById('average').textContent = obj.average;
+		} 
+
+
+		// var context2 = document.getElementById("chart2").getContext("2d");
+		// context2.canvas.width = 1000;
+		// context2.canvas.height = 300;
+        
+        // var configuration2 = {
+		// 	type: 'line',
+		// 	data: {
+		// 		datasets: [{
+		// 			label: "Temperatura",
+		// 			type: 'line',
+		// 			borderColor: ['#ff3232'],
+		// 			backgroundColor: ['#ff7f7f']
+		// 		}]
+		// 	},
+		// 	options: {
+		// 		scales: {
+		// 			xAxes: [{
+		// 				distribution: 'series',
+        //                 ticks: {
+        //                     beginAtZero:true
+        //                 }
+		// 			}],
+		// 			yAxes: [{
+		// 				scaleLabel: {
+		// 					display: true,
+		// 					labelString: 'Luminosidade'
+        //                 },
+        //                 ticks: {
+        //                     beginAtZero:true
+        //                 }
+		// 			}]
+		// 		},
+		// 		animation: {
+		// 			duration: 0
+		// 		}
+		// 	}
+        // };
+        
+		// var chart2 = new Chart(context2, configuration2);
+
+        // //Função para obter os dados de temperatura do server
+        // //Seria mais interessante fazer isso com WebSocket, porém para fins academicos, os dados serão atualizados via HTTP
+        
+        // //Esse atributo dentro do contexto serve para saber qual foi o último índice processado, assim eliminado os outros elementos na
+        // //hora de montar/atualizar o gráfico
+        // this.lastIndexTemp2 = 0;
+        // this.time2 = 0;
+
+        // function get_data2(){
+
+        //     var http = new XMLHttpRequest();
+        //     http.open('GET', 'http://localhost:3000/api', false);
+        //     http.send(null);        
+			
+        //     var obj2 = JSON.parse(http.responseText);
+		// 	//Assinar ao segundo index
+		// 	obj2 = obj2[1];
+        //     if (obj2.data.length == 0){
+        //         return;
+        //     }
+
+        //     var _lastIndexTemp2 = this.lastIndexTemp2;
+        //     this.lastIndexTemp2 = obj2.data.length;
+        //     listTemp2 = obj2.data.slice(_lastIndexTemp2);
+
+        //     listTemp2.forEach(data => {
+        //         //Máximo de 60 itens exibidos no gráfico
+        //         if (chart2.data.labels.length == 10 && chart2.data.datasets[0].data.length == 10){
+        //             chart2.data.labels.shift();
+        //             chart2.data.datasets[0].data.shift();
+        //         }
+
+        //         chart2.data.labels.push(this.time++);
+        //         chart2.data.datasets[0].data.push(parseFloat(data));
+        //         chart2.update();
+		// 	});
+			
+		// 	document.getElementById('average2').textContent = obj2.average;
+		// }
+
+		var context3 = document.getElementById("chart3").getContext("2d");
+		context3.canvas.width = 1000;
+		context3.canvas.height = 300;
+        
+        var configuration3 = {
+			type: 'line',
+			data: {
+				datasets: [{
+					label: "Luminosidade",
+					type: 'line',
+					borderColor: ['#ffd902'],
+					backgroundColor: ['#ffe135']
+				}]
+			},
+			options: {
+				scales: {
+					xAxes: [{
+						distribution: 'series',
+                        ticks: {
+                            beginAtZero:true
+                        }
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Luminosidade'
+                        },
+                        ticks: {
+                            beginAtZero:true
+                        }
+					}]
+				},
+				animation: {
+					duration: 0
+				}
+			}
+        };
+        
+		var chart3 = new Chart(context3, configuration3);
+
+        this.lastIndexTemp3 = 0;
+        this.time3 = 0;
+
+		
+		function get_data3(){
+
+			var http = new XMLHttpRequest();
+			http.open('GET', 'http://localhost:3000/api', false);
+			http.send(null);        
+
+			var obj = JSON.parse(http.responseText);
+			//Assinar ao segundo index
+			obj = obj[2];
+			if (obj.data.length == 0){
+				return;
+			}
+
+			var _lastIndexTemp3 = this.lastIndexTemp3;
+			this.lastIndexTemp3 = obj.data.length;
+			listTemp3 = obj.data.slice(_lastIndexTemp3);
+
+			listTemp3.forEach(data => {
+				//Máximo de 60 itens exibidos no gráfico
+				if (chart3.data.labels.length == 10 && chart3.data.datasets[0].data.length == 10){
+					chart3.data.labels.shift();
+					chart3.data.datasets[0].data.shift();
+				}
+
+				chart3.data.labels.push(this.time++);
+				chart3.data.datasets[0].data.push(parseFloat(data));
+
+
+				if (data < 650){
+                chart3.data.datasets[0].backgroundColor='rgb(255, 30, 30)';
+                div_msg2.innerHTML = `<h2 style="color: rgb(255, 30, 30);">Luminosidade ${data.toFixed()}, muito abaixo dos padrões ideais, estado crítico!!!</h2>`
+            }
+            if (data >= 650 && data < 700){
+                chart3.data.datasets[0].backgroundColor='#rgb(255, 113, 61)';
+            
+                div_msg2.innerHTML = `<h2 style="color: rgb(255, 113, 61);">Luminosidade ${data.toFixed()}, abaixo dos padrões ideais, estado emergêncial</h2>`
+            }
+            if (data >= 700 && data < 750){
+                chart3.data.datasets[0].backgroundColor='rgb(243, 243, 83)';
+                div_msg2.innerHTML = `<h2 style="color: rgb(243, 243, 83);">Luminosidade ${data.toFixed()}, abaixo do padrão ideal</h2>`
+            }
+            if (data >= 750 && data <= 850){
+                chart3.data.datasets[0].backgroundColor='rgb(55, 228, 55)';
+          
+                div_msg2.innerHTML = `<h2 style="color: rgb(55, 228, 55);">Luminosidade ${data.toFixed()},  nos padrões ideais</h2>`
+            }
+            if (data > 850 && data <= 900){
+                chart3.data.datasets[0].backgroundColor='rgb(243, 243, 83)';
+            
+                div_msg2.innerHTML = `<h2 style="color: rgb(243, 243, 83);">Luminosidade ${data.toFixed()}, acima dos padrões ideais</h2>`
+            }
+			if (data > 900 && data <= 950){
+                chart3.data.datasets[0].backgroundColor='rgb(255, 113, 61)';
+            
+                div_msg2.innerHTML = `<h2 style="color: rgb(255, 113, 61);">Luminosidade ${data.toFixed()}, acima dos padrões ideais, estado emergêncial</h2>`
+            }
+			if (data > 950){
+                chart3.data.datasets[0].backgroundColor='rgb(255, 30, 30)';
+            
+                div_msg2.innerHTML = `<h2 style="color:rgb(255, 30, 30);">Luminosidade ${data.toFixed()}, muito acima dos padrões ideais, estado crítico!!!</h2>`
+            }
+				chart3.update();
+			});
+
+			document.getElementById('average3').textContent = obj.average;
+		}
+
+        setInterval(() => {
+			get_data();
+			// get_data2();
+			get_data3();
+        }, 1000);
+	</script>
+</body>
+
+</html>

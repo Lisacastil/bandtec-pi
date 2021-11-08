@@ -1,0 +1,32 @@
+Apresentação e contexto: 
+
+   Boa tarde, nós somos o grupo 09, nossa empresa é a Plantech formada pelos integrantes:
+Bruno Henrique, Carlos Felix, Danilo Ferreira, Elisa Castilho, Gabriel Lima e Paulo Andrade.
+
+  Bom, A Plantech surgiu a partir da ideia de levar automação ao cultivo hidropônico de rúcula.
+  Só para contextualizar, o hidroponia é uma técnica de cultivar plantas sem solo em ambiente controlado.
+  Este ambiente é perfeito para utilização dos nossos sensores de umidade e temperatura.
+  Este monitoramento feito pelos nossos sensores permite uma produção de maior qualidade
+e a garantia de várias safras ao ano.
+  Sendo assim, o nosso cliente pode gerar mais valor agregado ao seu produto em uma das hortaliças
+mais consumidas e produzidas no Brasil, superando até mesmo a alface.
+  Agora passarei para o Carlos, para mais detalhes sobre a nossa solução.
+
+
+Site: 
+
+  Nosso site foi feito com a inteção de deixá-lo o mais atrativo e interativo possível,
+para melhor experiência do usuário.
+  Começando com a nossa identidade visual, o degradê feito com a propriedade linear gradient
+do CSS.
+  Em seguida temos o efeito chamado PARALAX, que produz um efeito na imagem ao rolar
+a página para baixo e sobre isso temos o perspective-text.
+  O perspective-text é algo que foi feito com a intenção de tornar o site mais atrativo
+e contém palavras relacionadas ao nosso negócio, como: ...
+  Abaixo temos o nosso flip-card que contém o nosso propósito, o mesmo texto que foi
+apresentado a vocês no início da apresentação.
+  Abaixo temos mais informações sobre a nossa empresa, importantes para o entendimento
+do usuário sobre o nosso negócio, como objetivo, Por que a Plantech e como iremos ajudar
+o nosso produtor a produzidar mais e ter mais lucratividade.
+  Agora passarei para o Danilo e o Gabriel para falarem um pouco mais sobre a nossa tela
+de Login e cadastro.

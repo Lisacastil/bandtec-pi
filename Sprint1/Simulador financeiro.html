@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+    <style>
+        img {
+            border-radius: 50%;
+            box-shadow: 5px 10px 10px#406343;
+            transition: transform 1.5s;
+            transform-style: preserve-3d;
+        }
+        .div_img:hover img{
+            transform: scale(1.2) rotateX(360deg);
+        }
+        h3{
+            color: #1d2c1b;
+            box-shadow: 5px 0px 5px #32502E;
+        }
+        button {
+            box-shadow: 5px 2px 10px#406343;
+            color: #fffef9;
+            background-color: #344d36;
+            border-radius: 10%;
+            border-color: #1e301c;
+            transition: transform 2s;
+        }
+        button:hover {
+            color: #344d36;
+            background-color:#fffef9 ;
+            transform: scale(1.1) ;
+
+        }
+        .div_img {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .div_texto {
+            box-shadow: 5px 5px 10px #406343;
+            height: auto;
+            width: 350px;
+            margin-left: 500px;
+            margin-right: 475px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #32502E;
+        }
+        body{
+            background: linear-gradient(45deg,  #406343, #ECE7B4, #F3EFCC);
+            background-size: 200% 300%;
+            animation: colors 10s ease infinite;
+        }
+        @keyframes colors {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Por que usar o nosso sensor?
+
+        A rúcula é muito apreciada pelo sabor característico e picante. Era, até alguns anos, uma 
+    hortaliça de pouca expressão no mercado, pois a produção no solo demorava em torno de 
+    50 dias, resultando em folhas um tanto duras e amargas.
+
+       Com a introdução de seu cultivo em hidroponia, foi redescoberta na culinária e pelos 
+    consumidores. Na hidroponia a cultura atinge tamanho comercial com precocidade em 
+    aproximadamente 30 dias tornando-se hoje uma das principais hortaliças produzidas no 
+    Brasil neste sistema. O crescimento de consumo e produção supera a alface.
+
+       Um maço de rúcula no Brasil é vendido pelo produtor ao revendedor por R$ 0,68 a R$ 2,80, 
+    conforme a região, chegando ao consumidor final por 3,00 a R$ 4,90; 
+
+      O custo de produção de um maço de rúcula, levando em consideração uma área produtiva 
+    de 500 m2, somando impostos, mão de obra, sementes, insumos, embalagens e 
+    depreciação das estruturas, no ano de 2018 ficou em média a R$ 0,38-->
+
+    
+    <div class="div_img">
+        <img src="Logotipo-tech.png" width="150px" alt="Logo Plantech">
+        <h3>Simulador de Produção - Plantech</h3>
+    </div>
+    <div class="div_texto">
+       <b>Quantos metros quadrados possui sua estufa?</b> <input id="tamanho_estufa" placeholder="ex. 10"><br>
+        <br>
+        <button id="bt_simulacao" onclick="simular()">Simular produção</button><br>
+        <br>
+        <div id="div_simulacao_comum" style="background-color: rgb(178, 219, 245);"></div>
+        <div id="div_simulacao_indoor" style="background-color: rgb(188, 224, 188);"></div>
+        <br>
+    </div>
+</body>
+</html>
+<script>
+    function simular() {
+        var ax_estufa = tamanho_estufa.value;
+        // Para calcular, consideramos: 500/m2 e 30 dias produtivos/anual
+        var ax_hidro = Number(500)*tamanho_estufa.value*Number(30)
+        var ax_custo = ax_hidro*Number(0.38);
+        var ax_venda_comum = ax_hidro*Number(1);
+        // Para calcular, consideramos: 500/m2 e 30 dias produtivos/anual
+        var ax_venda_indoor = ax_hidro*Number(1.75);
+            div_simulacao_comum.innerHTML = `<b>Para estufa hidropônica comum, 
+            <br>sua produção será de:</b><br> 
+            <br>${ax_hidro} rúculas por ano em ${ax_estufa} metros quadrados.
+            <br>O custo médio de produção é de R$: ${ax_custo.toFixed(2)} por ano. 
+            <br>O valor médio de venda é de R$ 1.00, gerando:
+            <br> Lucro bruto de R$: ${ax_venda_comum.toFixed(2)}.
+            <br> Lucro líquido de R$: ${(ax_venda_comum-ax_custo).toFixed(2)}</b>.`;
+            div_simulacao_indoor.innerHTML = `<b>Para estufa hidropônica indoor, com os sensores da Plantech, 
+            <br>sua produção será de:</b><br> 
+            <br>${ax_hidro} rúculas por ano em ${ax_estufa} metros quadrados.
+            <br>O custo médio de produção é de R$: ${ax_custo.toFixed(2)} por ano. 
+            <br>O valor médio de venda é de R$ 1.75, gerando:
+            <br> Lucro bruto de R$: ${ax_venda_indoor.toFixed(2)}.
+            <br> Lucro líquido de R$: ${(ax_venda_indoor-ax_custo).toFixed(2)}</b>.`;
+    }
+</script>

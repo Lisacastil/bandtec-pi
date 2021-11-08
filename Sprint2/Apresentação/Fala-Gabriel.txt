@@ -1,0 +1,24 @@
+
+
+
+
+
+--- Login:
+
+Boa tarde professores, meu nome é Gabriel Lima, vou falar sobre a parte de login do nosso site institucional, nessa parte é onde o cliente entra em sua conta para poder visualizar os dados gerados pelos nossos sensores em suas respectivas estufas, para a visualização dos dados é necessário a efetuação do login, isso para a segurança da empresa, para fins didáticos, implementamos um cliente, com o login mundoverde e senha verdemundo, e assim é feita nossa validação para o acesso das contas.Agora o Danilo vai explicar melhor a parte de cadastro do usuário.
+
+
+
+
+
+
+
+--- Arduíno:
+
+O Arduino é uma plataforma de prototipagem.Mas o que é prototipagem? Prototipagem é o processo de criação e fabricação de protótipos. Esse processo tem o objetivo de testar o produto com um baixo custo e assim detectar as possíveis falhas e as qualidades do projeto.
+
+Em nosso projeto foi utilizado o Arduino Uno que é a placa mais conhecida e mais utilizada da família das placas Arduino. É uma placa simples, mas já oferece várias possibilidades para o desenvolvimento de diferentes protótipos.
+
+Utilizando o sensor LDR juntamente ao DHT11 é possível receber os dados necessários para as estufas Plantech, os dados de luminosidade e umidade recebidos são enviados para API onde o cliente tem um contato mais amplo com os dados gerados, assim ficando mais simples e prático para tomada de decisões.
+
+Para a facilitação da compreensão do usuário, foi criado uma tabela como forma de legenda para cada gráfico de seu respesctivo sensor alinhado as cores do gráfico, onde a cor vermelha representa estado crítico, a cor laranja representa um estado de emergência, a cor amarela significa um estado de alerta e por fim ao visualizar a cor verde, o usuário pode ficar tranquilo que tudo está de acordo com as estufas hidropônicas Plantech.

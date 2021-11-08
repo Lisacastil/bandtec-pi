@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styleLogin.css">
+</head>
+<body>
+    
+    <div class="header">
+
+        <div class="container">
+
+            <a href="index.html"><img src="Logotipo-tech.png" class="active"></a>
+
+
+            <ul class="navbar" >
+                <li><a href="graficos.html">Graficos</a></li>
+                <li><a href="Simulador financeiro.html">Simulador</a></li>
+                <li>|</li>
+                <li class="active"><a>Login</a></li>
+                <li><a href="logincadastro.html">Cadastro</a></li>
+            </ul>
+
+        </div>
+
+    </div> 
+    <div class="tela_de_login"><h1><b><i>Entre com sua conta</i></b></h1>
+        <h2><i>Username:</i></h2>
+        <input id="username_login" placeholder="Digite seu username" type="text"><br><br>
+        <h2><i>Senha:</i></h2>
+        <input id="password_login" placeholder="Digite sua senha" type="password"><br><br>
+        <button onclick="login()">Login</button>
+    </div>
+</body>
+</html>
+<script>
+    function login() {
+        if(username_login.value == 'mundoverde' && password_login.value == 'verdemundo'){
+            alert('Login efetuado!')
+        } else {
+            alert('Senha ou usuário incorretos!')
+        }
+        username_login.value = ''
+        password_login.value = ''
+    }
+</script>

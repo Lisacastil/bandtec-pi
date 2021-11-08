@@ -1,0 +1,53 @@
+DIAGRAMAS:
+
+
+Boa Tarde! meu nome é Carlos e vou começar a explicar a parte do 
+nosso diagrama de solução de negócio, onde vocês conseguem entender 
+de uma forma mais breve como vai acontecer o nosso fluxo de sistema.
+
+NEGOCIO:
+
+a umidade e a luminosidade da estufa serão capturadas pelos sensores do arduino,
+onde a placa vai ter que estar conectada através de uma entrada usb no computador
+já mandando os dados direto para o banco de dados, através de uma rede wi-fi onde
+todos os dados serão armazenados em um servidor na nuvem, e a partir disso os
+dados poderão ser acompanhados com alertas de variação em tempo real.
+
+TECNICO:
+
+Vamos utilizar uma placa arduino UNO, que trasmitira os dados recebidos atraves de um 
+USB conectado ao notbook como o que está no slide de exemplo, atraves da rede wi-fi
+colocamos um roteador modelo, como um modelo minimo tbm, para ter uma boa transmissão de dados,
+além disso, utilizaremos as ferramentas, aplicações, e linguagens como javascript, css e HTML,
+mySQL para banco de dados, e e um servidor aplicado via web no AZURE 
+
+--------------------------------------------------------------------------------------------------------------------------
+MODELAGEM:
+
+
+Agora vou explicar a parte de banco de dados, 
+juntamente com o meu colega Paulo, vou entrar mais na parte de modelagem e o 
+paulo conta pra vocês logo em seguida como foi organizado o script.
+
+Bom como os senhores podem ver aqui temos a modelagem de 5 tabelas, que são elas: 
+Empresa, funcionário, Permissão, Estufa, LogsSensor, vou explicar agora como acontece
+a relação entre elas.
+
+Aqui temos a tabela Empresa e logo em seguida a tabela funcionário onde entre elas
+acontece uma relação (1,n) porque uma empresa pode ter muitos funcionários, mas o funcionário
+só pode pertencer a uma empresa.
+
+Temos também a tabela estufa junto com a tabela empresa onde ocorre uma relação
+também (1,n) pois uma estufa pertence a somente uma empresa, mas uma empresa pode ter muitas
+estufas.
+
+em seguida teremos uma ligação (n,n) entre as tabelas Estufa e a tabela funcionário pois,
+muitos funcionários podem ter acesso a muitas estufas, onde com essa relação irá gerar
+uma tabela associativa, com o nome de tabela permissão, onde será possível fazer um select
+para ver qual estufa foi acessada e qual funcionário o acessou através das chaves estrangeiras.
+
+por ultimo temos a tabela logsSensor onde ocorre uma relação (1,n) com a tabela estufa pois
+uma estufa pode ter muitos sensores mas um sensor pertence somente a uma estufa.
+
+
+

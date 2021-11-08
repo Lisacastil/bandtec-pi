@@ -1,0 +1,32 @@
+PRINCIPAIS REQUISITOS
+
+Boa tarde eu sou a Elisa e vou falar um pouco sobre os principais requisitos do nosso projeto.
+
+Aqui está o trello que é a ferramenta de gestão que nós utilizamos para 
+gerenciar as atividades do nosso projeto e nele nós listamos os principais requisitos e gerenciamos as entregas.
+
+Aqui está a nossa lista de requisitos e alguns deles para essa reunião de hoje eram:
+
+- Site institucional, uma vez que o nosso site é o cartão de visita da nossa empresa, é em muitas vezes a primeira fora de contato conosco.
+
+- O cadastro e login do usuário: Nosso site possibilita que o usuário se cadastre e accesse as informações de monitoramento da estuda.
+
+- Dashboard com gráficos de acompanhamento em tempo real e alertas de variação no ambiente da estufa.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ARDUINO
+
+O arduino possui bibliotecas que nada mais são que um conjunto de instruções desenvolvidas para executar tarefas específicas relacionadas a um determinado dispositivo.
+
+Apenas pra ilustrar, aqui está o nosso código do arduino e no nosso projeto utilizamos a biblioteca DHT.h (como vocês podem ver aqui -- aponta no código)
+
+Aqui criamos uma condição if/else na qual eu determino que se a informação recebida não for um número o monitor serial exibirá um alerta caso contrário serão exibidos
+
+os dados do dht.11 e do LDR.
+
+E logo abaixo temos nessa parte do código nós definimos o cálculo da luminosidade em que convertemos a tensão da porta para lux.
+
+O arduino coleta os dados de umidade e luminosidade e esses dados são recebidos pela API do nosso projeto que pode ser acessada por outras aplicações para análise e
+exibição dos dados no dashboard. 
+
+ 
